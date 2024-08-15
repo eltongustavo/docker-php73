@@ -1,9 +1,14 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      args:
+        UID: ${UID}
+        GID: ${GID}
     ports:
       - "9000:80"
     volumes:
       - ./project:/var/www/html
     container_name: apache-php7
     command: /bin/bash -c "chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html && apache2-foreground"
+
