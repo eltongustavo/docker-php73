@@ -1,15 +1,9 @@
 services:
   web:
-    build: .  # Isso faz com que o Docker Compose use o Dockerfile na raiz do projeto
-    container_name: php73-apache
+    build: .
     ports:
-      - "9000:80"  # Mapeia a porta 80 do container para a porta 8080 do host
+      - "9000:80"
     volumes:
-      - ./project:/var/www/html  # Mapeia o diretório local ./project para /var/www/html no container
-      - ./logs:/var/log/apache2  # Mapeia o diretório de logs do host para o diretório de logs do Apache no container
-    networks:
-      - webnet
-
-networks:
-  webnet:
-    driver: bridge
+      - ./project:/var/www/html
+    container_name: apache-php7
+    command: /bin/bash -c "chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html && apache2-foreground"
